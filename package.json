@@ -2,7 +2,7 @@
   "name": "frotas",
   "version": "1.0.0",
   "description": "controle de frotas",
-  "main": "index.js",
+  "main": "app.js",
   "engines": {
     "node": "20.x"
   },
