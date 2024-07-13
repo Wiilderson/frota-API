@@ -14,7 +14,7 @@ const Entrega = sequelize.define('Entregas', {
         type: DataTypes.FLOAT
     },
     destino: {
-        type: DataTypes.ENUM('Nordeste', 'Argentina', 'Amazonia', 'Outros')
+        type: DataTypes.STRING
     },
     seguro: {
         type: DataTypes.BOOLEAN
@@ -30,8 +30,6 @@ const Entrega = sequelize.define('Entregas', {
     },
 });
 
-// Entrega.belongsTo(Caminhao, { foreignKey: 'caminhaoId' });
-// Entrega.belongsTo(Motorista, { foreignKey: 'motoristaId' });
 Entrega.belongsTo(Caminhao, { foreignKey: 'caminhaoId', as: 'caminhoes' });
 Entrega.belongsTo(Motorista, { foreignKey: 'motoristaId', as: 'motoristas' });
 
@@ -77,17 +75,17 @@ Entrega.beforeCreate(async (entrega) => {
 
 Entrega.beforeCreate((entrega) => {
     entrega.setDataValue('indicadorValioso', entrega.valor > 30000 ? true : false);
-    entrega.setDataValue('indicadorSeguro', (entrega.tipo === 'eletronicos' && !entrega.seguro) ? 'sem seguro' : 'com seguro');
-    entrega.setDataValue('indicadorPerigoso', entrega.tipo === 'combustivel' ? true : false);
+    entrega.setDataValue('indicadorSeguro', (entrega.tipo.toLowerCase() === 'eletronicos' && !entrega.seguro) ? 'sem seguro' : 'com seguro');
+    entrega.setDataValue('indicadorPerigoso', entrega.tipo.toLowerCase() === 'combustivel' ? true : false);
 
-    switch (entrega.destino) {
-        case 'Nordeste':
+    switch (entrega.destino.toLowerCase()) {
+        case 'nordeste':
             entrega.valor *= 1.2;
             break;
-        case 'Argentina':
+        case 'argentina':
             entrega.valor *= 1.4;
             break;
-        case 'Amazonia':
+        case 'amazonia':
             entrega.valor *= 1.3;
             break;
     }

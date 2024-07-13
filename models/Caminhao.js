@@ -10,9 +10,9 @@ const Caminhao = sequelize.define('Caminhoes', {
     modelo: {
         type: DataTypes.STRING,
     },
-    capacidade: {
-        type: DataTypes.INTEGER,
-    }
+    // capacidade: {
+    //     type: DataTypes.INTEGER,
+    // }
 });
 
 // Caminhao.hasMany(Entrega, { foreignKey: 'caminhaoId' });
